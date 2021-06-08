@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/activityRecyclerConstraintLayout">
+
+        <TextView
+            android:id="@+id/activityRecyclerNameInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="@string/activity_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/activityRecyclerNameField"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            app:layout_constraintBottom_toBottomOf="@+id/activityRecyclerNameInfo"
+            app:layout_constraintStart_toEndOf="@+id/activityRecyclerNameInfo"
+            app:layout_constraintTop_toTopOf="@+id/activityRecyclerNameInfo" />
+
+        <TextView
+            android:id="@+id/activityRecyclerTypeInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/activity_type"
+            app:layout_constraintStart_toStartOf="@+id/activityRecyclerNameInfo"
+            app:layout_constraintTop_toBottomOf="@+id/activityRecyclerDateInfo" />
+
+        <TextView
+            android:id="@+id/activityRecyclerTypeField"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/activityRecyclerTypeInfo"
+            app:layout_constraintStart_toStartOf="@+id/activityRecyclerNameField"
+            app:layout_constraintTop_toTopOf="@+id/activityRecyclerTypeInfo" />
+
+        <TextView
+            android:id="@+id/activityRecyclerDateInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/activity_date"
+            app:layout_constraintStart_toStartOf="@+id/activityRecyclerNameInfo"
+            app:layout_constraintTop_toBottomOf="@+id/activityRecyclerNameInfo" />
+
+        <TextView
+            android:id="@+id/activityRecyclerDateField"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/activityRecyclerDateInfo"
+            app:layout_constraintStart_toStartOf="@+id/activityRecyclerNameField"
+            app:layout_constraintTop_toTopOf="@+id/activityRecyclerDateInfo" />
+
+        <TextView
+            android:id="@+id/activityRecyclerLocationInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_location"
+            app:layout_constraintBottom_toBottomOf="@+id/activityRecyclerLocationField"
+            app:layout_constraintStart_toStartOf="@+id/activityRecyclerTypeInfo"
+            app:layout_constraintTop_toTopOf="@+id/activityRecyclerLocationField" />
+
+        <TextView
+            android:id="@+id/activityRecyclerLocationField"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/activityRecyclerNameField"
+            app:layout_constraintTop_toBottomOf="@+id/activityRecyclerTypeInfo" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/activityRecyclerCombineButton"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
+            style="@style/AppTheme.ImageButton"
+            app:layout_constraintBottom_toBottomOf="@+id/activityRecyclerLocationField"
+            app:layout_constraintStart_toEndOf="@+id/activityRecyclerTypeField"
+            app:layout_constraintTop_toTopOf="@+id/activityRecyclerNameField"
+            app:srcCompat="@drawable/combine_select"
+            android:contentDescription="@string/combine_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/recyclerActivitiesDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
+        android:background="@color/red"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/delete_button"
+        android:contentDescription="@string/delete" />
+</androidx.constraintlayout.widget.ConstraintLayout>

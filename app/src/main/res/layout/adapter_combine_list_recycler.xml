@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/combineRecyclerConstraintLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginStart="5dp"
+    android:layout_marginBottom="10dp"
+    tools:ignore="UseCompoundDrawables">
+    <ImageButton
+        android:id="@+id/combineRecyclerDeleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:visibility="gone"
+        android:src="@drawable/delete_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/delete" />
+
+    <TextView
+        android:id="@+id/combineRecyclerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/combineRecyclerDeleteButton" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/combineRecyclerTextView">
+
+        <ImageView
+            android:id="@+id/combineRecyclerTopHeadImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="3dp"
+            app:srcCompat="@android:drawable/ic_delete"
+            tools:layout_editor_absoluteY="327dp"
+            android:contentDescription="@string/top_head" />
+
+        <ImageView
+            android:id="@+id/combineRecyclerFaceImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="3dp"
+            app:srcCompat="@android:drawable/ic_delete"
+            tools:layout_editor_absoluteY="327dp"
+            android:contentDescription="@string/face" />
+
+        <ImageView
+            android:id="@+id/combineRecyclerUpperBodyImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="3dp"
+            app:srcCompat="@android:drawable/ic_delete"
+            tools:layout_editor_absoluteY="327dp"
+            android:contentDescription="@string/body_upper"/>
+
+        <ImageView
+            android:id="@+id/combineRecyclerLowerBodyImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="3dp"
+            app:srcCompat="@android:drawable/ic_delete"
+            tools:layout_editor_absoluteY="327dp"
+            android:contentDescription="@string/body_lower"/>
+
+        <ImageView
+            android:id="@+id/combineRecyclerFeetImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="3dip"
+            app:srcCompat="@android:drawable/ic_delete"
+            tools:layout_editor_absoluteY="327dp"
+            android:contentDescription="@string/feet"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

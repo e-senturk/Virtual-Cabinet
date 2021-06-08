@@ -1,0 +1,2 @@
+rootProject.name = "Virtual Cabinet"
+include ':app'

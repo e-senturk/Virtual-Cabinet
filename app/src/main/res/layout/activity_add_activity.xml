@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    tools:context=".AddActivityActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/EditInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/activityNameText"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/activity_name"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                tools:layout_editor_absoluteX="0dp" />
+
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/EditInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_type"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityNameText" />
+
+            <EditText
+                android:id="@+id/activityTypeField"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/activity_type"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                tools:layout_editor_absoluteX="0dp" />
+            <TextView
+                android:id="@+id/textView6"
+                style="@style/EditInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_combine"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityTypeField" />
+
+            <LinearLayout
+                android:id="@+id/activityCombineLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" >
+                <EditText
+                    android:id="@+id/activityCombineField"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="email"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:layout_marginEnd="50dp"
+                    android:ems="10"
+                    android:hint="@string/select_a_combine"
+                    android:inputType="datetime"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/activityCombineSelector"
+                    android:layout_marginStart="-50dp"
+                    android:layout_width="0dp"
+                    style="@style/AppTheme.ImageButton"
+                    android:onClick="pickCombine"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/combine_select"
+                    android:contentDescription="@string/activity_combine" />
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/EditInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityCombineLayout" />
+
+            <LinearLayout
+                android:id="@+id/activityDateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" >
+                <EditText
+                    android:id="@+id/activityDateText"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="email"
+                    android:layout_marginEnd="50dp"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:ems="10"
+                    android:hint="@string/activity_date"
+                    android:inputType="datetime"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/activityDateImageButton"
+                    android:layout_marginStart="-50dp"
+                    android:layout_width="0dp"
+                    android:onClick="pickDate"
+                    style="@style/AppTheme.ImageButton"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/date"
+                    android:contentDescription="@string/activity_date" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/textView5"
+                style="@style/EditInfoTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_location"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityDateLayout" />
+
+            <LinearLayout
+                android:id="@+id/activityLocationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" >
+                <EditText
+                    android:id="@+id/activityLocationText"
+                    style="@style/EditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="email"
+                    android:layout_marginEnd="50dp"
+                    android:ems="10"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/activity_location"
+                    android:inputType="textMultiLine"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_marginStart="-50dp"
+                    android:layout_width="0dp"
+                    style="@style/AppTheme.ImageButton"
+                    android:onClick="pickLocation"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/map"
+                    android:contentDescription="@string/activity_location" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:onClick="saveActivity"
+                android:text="@string/save"
+                style="@style/AppTheme.Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityLocationLayout" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</ScrollView>
+

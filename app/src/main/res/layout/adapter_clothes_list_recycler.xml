@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clothesRecyclerConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/clothesListPurchaseDate"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/clothesPurchaseDateText"
+            app:layout_constraintStart_toStartOf="@+id/clothesListColor"
+            app:layout_constraintTop_toTopOf="@+id/clothesPurchaseDateText" />
+
+        <ImageView
+            android:id="@+id/clothesListImageView"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:contentDescription="@string/clothes_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/clothes_bg" />
+
+        <TextView
+            android:id="@+id/clothesWearingLocationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/wearing_location_2"
+            app:layout_constraintStart_toEndOf="@+id/clothesListImageView"
+            app:layout_constraintTop_toTopOf="@+id/clothesListImageView" />
+
+        <TextView
+            android:id="@+id/clothesTypeNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/clothes_type_2"
+            app:layout_constraintStart_toStartOf="@+id/clothesWearingLocationText"
+            app:layout_constraintTop_toBottomOf="@+id/clothesWearingLocationText" />
+
+        <TextView
+            android:id="@+id/clothesColorNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/clothes_color_2"
+            app:layout_constraintStart_toStartOf="@+id/clothesTypeNameText"
+            app:layout_constraintTop_toBottomOf="@+id/clothesTypeNameText" />
+
+        <TextView
+            android:id="@+id/clothesPurchaseDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/purchase_date_2"
+            app:layout_constraintStart_toStartOf="@+id/clothesColorNameText"
+            app:layout_constraintTop_toBottomOf="@+id/clothesColorNameText" />
+
+        <TextView
+            android:id="@+id/clothesListPattern"
+            android:layout_width="100dp"
+
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/clothesPatternNameText"
+            app:layout_constraintStart_toStartOf="@+id/clothesListColor"
+            app:layout_constraintTop_toTopOf="@+id/clothesPatternNameText" />
+
+        <TextView
+            android:id="@+id/clothesPatternNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/clothes_pattern_2"
+            app:layout_constraintStart_toStartOf="@+id/clothesPurchaseDateText"
+            app:layout_constraintTop_toBottomOf="@+id/clothesPurchaseDateText" />
+
+        <TextView
+            android:id="@+id/clothesListPrice"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/clothesPriceNameText"
+            app:layout_constraintStart_toStartOf="@+id/clothesListPattern"
+            app:layout_constraintTop_toTopOf="@+id/clothesPriceNameText" />
+
+        <TextView
+            android:id="@+id/clothesPriceNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/price_2"
+            app:layout_constraintStart_toStartOf="@+id/clothesPatternNameText"
+            app:layout_constraintTop_toBottomOf="@+id/clothesPatternNameText" />
+
+        <TextView
+            android:id="@+id/clothesListWearingLocation"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/clothesWearingLocationText"
+            app:layout_constraintStart_toEndOf="@+id/clothesWearingLocationText"
+            app:layout_constraintTop_toTopOf="@+id/clothesWearingLocationText" />
+
+        <TextView
+            android:id="@+id/clothesListType"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/clothesTypeNameText"
+            app:layout_constraintStart_toStartOf="@+id/clothesListWearingLocation"
+            app:layout_constraintTop_toTopOf="@+id/clothesTypeNameText" />
+
+        <TextView
+            android:id="@+id/clothesListColor"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/clothesColorNameText"
+            app:layout_constraintStart_toStartOf="@+id/clothesListType"
+            app:layout_constraintTop_toTopOf="@+id/clothesColorNameText" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/recyclerClothesDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
+        android:background="@color/red"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/delete_button"
+        android:contentDescription="@string/delete" />
+</androidx.constraintlayout.widget.ConstraintLayout>

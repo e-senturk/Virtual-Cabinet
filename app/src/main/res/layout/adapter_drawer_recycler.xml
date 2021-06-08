@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/drawerListRecyclerViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/drawerRecyclerEditButton"
+            android:layout_width="160dp"
+            android:layout_height="144dp"
+            android:background="@color/red"
+            style="@style/TrayMini"
+            android:contentDescription="@string/clothes_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <EditText
+            android:id="@+id/drawerNameText"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:inputType="textMultiLine"
+            android:hint="@string/drawer_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/drawerRecyclerEditButton"
+            app:layout_constraintTop_toTopOf="parent"
+            android:importantForAutofill="no" />
+
+        <TextView
+            android:id="@+id/drawerItemCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="@android:color/black"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/drawerRecyclerEditButton"
+            app:layout_constraintEnd_toEndOf="@+id/drawerRecyclerEditButton"
+            app:layout_constraintStart_toStartOf="@+id/drawerRecyclerEditButton"
+            app:layout_constraintTop_toTopOf="@+id/drawerRecyclerEditButton"
+            app:layout_constraintVertical_bias="0.35" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:layout_margin="5dp"
+        android:id="@+id/recyclerDrawerDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/delete_button"
+        android:contentDescription="@string/delete" />
+</androidx.constraintlayout.widget.ConstraintLayout>

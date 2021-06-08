@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    tools:context=".AddCombineActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cabinActivityConstraintLayout"
+            tools:context=".AddCombineActivity">
+
+            <ImageView
+                android:id="@+id/cabinTopHeadImage"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/hat"
+                android:onClick="selectImage"
+                android:contentDescription="@string/top_head" />
+
+            <ImageView
+                android:id="@+id/cabinFaceImage"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/cabinTopHeadImage"
+                app:layout_constraintTop_toBottomOf="@+id/cabinTopHeadImage"
+                app:srcCompat="@drawable/glasses"
+                android:onClick="selectImage"
+                android:contentDescription="@string/body_lower" />
+
+            <ImageView
+                android:id="@+id/cabinUpperBodyImage"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/cabinFaceImage"
+                app:layout_constraintTop_toBottomOf="@+id/cabinFaceImage"
+                app:srcCompat="@drawable/t_shirt"
+                android:onClick="selectImage"
+                android:contentDescription="@string/body_upper" />
+
+            <ImageView
+                android:id="@+id/cabinLowerBodyImage"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/cabinUpperBodyImage"
+                app:layout_constraintTop_toBottomOf="@+id/cabinUpperBodyImage"
+                app:srcCompat="@drawable/pants"
+                android:onClick="selectImage"
+                android:contentDescription="@string/body_lower" />
+
+            <ImageView
+                android:id="@+id/cabinFeetImage"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/cabinLowerBodyImage"
+                app:layout_constraintTop_toBottomOf="@+id/cabinLowerBodyImage"
+                app:srcCompat="@drawable/shoes"
+                android:onClick="selectImage"
+                android:contentDescription="@string/feet" />
+
+            <RelativeLayout
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                style="@style/SpinnerRelativeLayoutBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinTopHeadImage"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout3"
+                app:layout_constraintTop_toTopOf="@+id/cabinTopHeadImage">
+
+                <Spinner
+                    style="@style/SpinnerStyle"
+                    android:id="@+id/spinnerCabinTopHead"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout3"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                style="@style/SpinnerRelativeLayoutBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinFaceImage"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
+                app:layout_constraintTop_toTopOf="@+id/cabinFaceImage">
+
+                <Spinner
+                    style="@style/SpinnerStyle"
+                    android:id="@+id/spinnerCabinFace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                style="@style/SpinnerRelativeLayoutBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinUpperBodyImage"
+                app:layout_constraintEnd_toStartOf="@+id/cabinUpperBodyImage"
+                app:layout_constraintStart_toEndOf="@+id/textView7"
+                app:layout_constraintTop_toTopOf="@+id/cabinUpperBodyImage">
+
+                <Spinner
+                    style="@style/SpinnerStyle"
+                    android:id="@+id/spinnerCabinUpperBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout4"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                style="@style/SpinnerRelativeLayoutBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinLowerBodyImage"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout2"
+                app:layout_constraintTop_toTopOf="@+id/cabinLowerBodyImage">
+
+                <Spinner
+                    style="@style/SpinnerStyle"
+                    android:id="@+id/spinnerCabinLowerBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                style="@style/SpinnerRelativeLayoutBackground"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinFeetImage"
+                app:layout_constraintStart_toStartOf="@+id/relativeLayout4"
+                app:layout_constraintTop_toTopOf="@+id/cabinFeetImage">
+
+                <Spinner
+                    style="@style/SpinnerStyle"
+                    android:id="@+id/spinnerCabinFeet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/top_head_title"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinTopHeadImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/cabinTopHeadImage" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/face_title"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinFaceImage"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/cabinFaceImage" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/body_upper_title"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinUpperBodyImage"
+                app:layout_constraintStart_toStartOf="@+id/textView6"
+                app:layout_constraintTop_toTopOf="@+id/cabinUpperBodyImage" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/body_lower_title"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinLowerBodyImage"
+                app:layout_constraintStart_toStartOf="@+id/textView7"
+                app:layout_constraintTop_toTopOf="@+id/cabinLowerBodyImage" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/feet_title"
+                app:layout_constraintBottom_toBottomOf="@+id/cabinFeetImage"
+                app:layout_constraintStart_toStartOf="@+id/textView8"
+                app:layout_constraintTop_toTopOf="@+id/cabinFeetImage" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="createCombine"
+                style="@style/AppTheme.Button"
+                android:text="@string/combine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cabinFeetImage" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</ScrollView>
