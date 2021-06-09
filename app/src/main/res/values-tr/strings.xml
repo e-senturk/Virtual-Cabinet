@@ -90,4 +90,6 @@
     <string name="backup_started">Yedekleme Başlatıldı</string>
     <string name="restore_started">Geri Yükleme Başlatıldı</string>
     <string name="cleaning_started">Temizleme Başlatıldı</string>
+    <string name="backup_finished">Yedekleme Tamamlandı</string>
+    <string name="current_location">Buradasınız</string>
 </resources>

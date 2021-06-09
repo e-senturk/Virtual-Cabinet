@@ -88,6 +88,8 @@
     <string name="are_you_sure_backup">The items in the database will be reset. Are you sure?</string>
     <string name="are_you_sure_clear">All data on the device will be deleted. Are you sure?</string>
     <string name="backup_started">Backup Started</string>
+    <string name="backup_finished">Backup Finished</string>
     <string name="restore_started">Restore Started</string>
     <string name="cleaning_started">Cleaning Started</string>
+    <string name="current_location">You\'re Here</string>
 </resources>

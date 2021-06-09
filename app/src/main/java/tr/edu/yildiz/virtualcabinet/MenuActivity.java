@@ -104,9 +104,7 @@ public class MenuActivity extends AppCompatActivity {
             builder.setMessage(getString(R.string.are_you_sure_backup));
             builder.setNegativeButton(getString(R.string.no), null);
             builder.setPositiveButton(getString(R.string.yes), (dialogInterface, i) -> {
-                FireBaseService.clearFirebase();
-                FireBaseService.uploadDataBase(this, MODE_PRIVATE);
-                FireBaseService.uploadAllImages(this, MODE_PRIVATE);
+                FireBaseService.update(this,MODE_PRIVATE);
                 Tools.showSnackBar(getString(R.string.backup_started), layout, this, Snackbar.LENGTH_SHORT);
             });
             builder.show();

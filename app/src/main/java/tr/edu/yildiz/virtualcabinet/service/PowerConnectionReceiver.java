@@ -31,9 +31,7 @@ public class PowerConnectionReceiver extends BroadcastReceiver {
                 builder.setMessage(context.getString(R.string.are_you_sure_backup));
                 builder.setNegativeButton(context.getString(R.string.no), null);
                 builder.setPositiveButton(context.getString(R.string.yes), (dialogInterface, i) -> {
-                    FireBaseService.clearFirebase();
-                    FireBaseService.uploadDataBase(context, MODE_PRIVATE);
-                    FireBaseService.uploadAllImages(context, MODE_PRIVATE);
+                    FireBaseService.update(context, MODE_PRIVATE);
                     Tools.showSnackBar(context.getString(R.string.backup_started), layout, context, Snackbar.LENGTH_SHORT);
                 });
                 builder.show();

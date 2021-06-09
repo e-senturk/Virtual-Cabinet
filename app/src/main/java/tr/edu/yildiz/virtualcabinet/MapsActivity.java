@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +40,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private Address currentAddress;
     private ConstraintLayout parentLayout;
+    private Location currentGPSLocation;
+    private Location currentNetworkLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
     }
@@ -66,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NotNull GoogleMap googleMap) {
         mMap = googleMap;
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         // Add a marker in Sydney and move the camera
@@ -77,11 +83,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             } else {
-                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if (location != null) {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
-                    mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())));
-                } else {
+                currentGPSLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                LocationListener locationListenerGPS = location -> currentGPSLocation = location;
+                LocationListener locationListenerNetwork = location -> currentNetworkLocation = location;
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000L,500.0f, locationListenerGPS);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,1000L,500.0f, locationListenerNetwork);
+                if (currentGPSLocation != null) {
+                    System.out.println("GPS location");
+                    mMap.clear();
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentGPSLocation.getLatitude(), currentGPSLocation.getLongitude()), 15));
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentGPSLocation.getLatitude(), currentGPSLocation.getLongitude())).title(getString(R.string.current_location)));
+                } else if(currentNetworkLocation !=null) {
+                    System.out.println("Network location");
+                    mMap.clear();
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentNetworkLocation.getLatitude(), currentNetworkLocation.getLongitude()), 15));
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(currentNetworkLocation.getLatitude(), currentNetworkLocation.getLongitude())).title(getString(R.string.current_location)));
+                }
+                else{
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(41.015137, 28.979530), 15));
                 }
             }

@@ -76,7 +76,7 @@ public class FireBaseService {
         }).addOnFailureListener(exception -> System.out.println("Error while downloading " + fileName + " database"));
     }
 
-    public static void deleteFirebaseImages() {
+    public static void update(Context context, int mode) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference storageReference = firebaseStorage.getReference();
         StorageReference islandRef = storageReference.child("database/paths");
@@ -97,6 +97,8 @@ public class FireBaseService {
             removeFirebaseFile("database", "activities");
             removeFirebaseFile("database", "combines");
             removeFirebaseFile("database", "paths");
+            FireBaseService.uploadDataBase(context, mode);
+            FireBaseService.uploadAllImages(context, mode);
         }).addOnFailureListener(exception -> System.out.println("Error while getting image file names database"));
     }
 
@@ -147,15 +149,31 @@ public class FireBaseService {
             ArrayList<Drawer> allDrawers = Database.getDrawers(context, mode);
             byte[] drawersBlob = Tools.arrayListToBlob(allDrawers);
             uploadSingleFile(generateOutput(context, drawersBlob, "drawers"), "database", "drawers");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
             ArrayList<Clothes> allClothes = Database.getAllClothes(context, mode);
             byte[] clothesBlob = Tools.arrayListToBlob(allClothes);
             uploadSingleFile(generateOutput(context, clothesBlob, "clothes"), "database", "clothes");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
             ArrayList<Combine> allCombines = Database.getCombines(context, mode);
             byte[] combinesBlob = Tools.arrayListToBlob(allCombines);
             uploadSingleFile(generateOutput(context, combinesBlob, "combines"), "database", "combines");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
             ArrayList<ActivityModel> allActivities = Database.getActivities(context, mode);
             byte[] activitiesBlob = Tools.arrayListToBlob(allActivities);
             uploadSingleFile(generateOutput(context, activitiesBlob, "activities"), "database", "activities");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
             ArrayList<String> paths = Database.getClothesPathList(context, mode);
             byte[] pathsBlob = Tools.arrayListToBlob(paths);
             uploadSingleFile(generateOutput(context, pathsBlob, "paths"), "database", "paths");
@@ -198,11 +216,6 @@ public class FireBaseService {
         desertRef.delete().addOnSuccessListener(aVoid -> {
         }).addOnFailureListener(exception -> {
         });
-    }
-
-    public static void clearFirebase() {
-        deleteFirebaseImages();
-
     }
 
 }
