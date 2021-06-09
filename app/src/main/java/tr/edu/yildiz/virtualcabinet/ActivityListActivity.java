@@ -30,51 +30,21 @@ public class ActivityListActivity extends AppCompatActivity {
     ActivityRecyclerViewAdapter recyclerViewAdapter;
     ArrayList<ActivityModel> activityModels;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_activity);
         setTitle(getString(R.string.activities));
 
-        activityModels = Database.getActivities(this,MODE_PRIVATE);
+        activityModels = Database.getActivities(this, MODE_PRIVATE);
         if (activityModels == null)
             activityModels = new ArrayList<>();
         ConstraintLayout parentLayout = findViewById(R.id.activityListConstraintLayout);
         RecyclerView recyclerView = findViewById(R.id.activityListRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewAdapter = new ActivityRecyclerViewAdapter(activityModels,parentLayout);
+        recyclerViewAdapter = new ActivityRecyclerViewAdapter(activityModels, parentLayout);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(recyclerViewAdapter);
-    }
-
-    public void addActivity(View view) {
-        Intent intent = new Intent(ActivityListActivity.this, AddActivityActivity.class);
-        startActivityForResult(intent, 1);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            ActivityModel newActivity = data.getParcelableExtra("activity");
-            boolean editing = data.getBooleanExtra("editing",false);
-            if(editing){
-                int index = data.getIntExtra("index",-1);
-                activityModels.set(index,newActivity);
-            }
-            else{
-                activityModels.add(newActivity);
-            }
-            recyclerViewAdapter.notifyDataSetChanged();
-        }
-        else if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
-            Combine combine = data.getParcelableExtra("combine");
-            int index = data.getIntExtra("index",-1);
-            activityModels.get(index).setCombineName(combine.getName());
-            Database.updateActivityCombine(this, MODE_PRIVATE,activityModels.get(index).getName(), combine.getName());
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
@@ -115,4 +85,31 @@ public class ActivityListActivity extends AppCompatActivity {
             super.onChildDraw(c, recyclerView, viewHolder, dX / 6, dY, actionState, isCurrentlyActive);
         }
     };
+
+    public void addActivity(View view) {
+        Intent intent = new Intent(ActivityListActivity.this, AddActivityActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            ActivityModel newActivity = data.getParcelableExtra("activity");
+            boolean editing = data.getBooleanExtra("editing", false);
+            if (editing) {
+                int index = data.getIntExtra("index", -1);
+                activityModels.set(index, newActivity);
+            } else {
+                activityModels.add(newActivity);
+            }
+            recyclerViewAdapter.notifyDataSetChanged();
+        } else if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
+            Combine combine = data.getParcelableExtra("combine");
+            int index = data.getIntExtra("index", -1);
+            activityModels.get(index).setCombineName(combine.getName());
+            Database.updateActivityCombine(this, MODE_PRIVATE, activityModels.get(index).getName(), combine.getName());
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

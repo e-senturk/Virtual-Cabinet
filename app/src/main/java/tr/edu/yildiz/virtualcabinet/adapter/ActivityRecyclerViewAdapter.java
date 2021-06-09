@@ -34,6 +34,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
 
     ArrayList<ActivityModel> activities;
     ConstraintLayout parentLayout;
+
     public ActivityRecyclerViewAdapter(ArrayList<ActivityModel> activities, ConstraintLayout parentLayout) {
         this.activities = activities;
         this.parentLayout = parentLayout;
@@ -52,7 +53,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ActivityRecyclerViewAdapter.RowHolder holder, int position) {
-        holder.bind(activities,position,this);
+        holder.bind(activities, position, this);
     }
 
     @Override
@@ -60,14 +61,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
         return activities.size();
     }
 
-    public static class RowHolder extends RecyclerView.ViewHolder{
-        TextView activityNameField;
-        TextView activityTypeField;
-        TextView activityDateField;
-        TextView activityLocationField;
-        ImageButton activityCombineButton;
-        ImageButton deleteButton;
-        ConstraintLayout constraintLayout;
+    public static class RowHolder extends RecyclerView.ViewHolder {
         private final int[] colors = new int[]{
                 itemView.getContext().getColor(R.color.blue),
                 itemView.getContext().getColor(R.color.orange),
@@ -77,6 +71,13 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
                 itemView.getContext().getColor(R.color.violet),
                 itemView.getContext().getColor(R.color.vivid_green)
         };
+        TextView activityNameField;
+        TextView activityTypeField;
+        TextView activityDateField;
+        TextView activityLocationField;
+        ImageButton activityCombineButton;
+        ImageButton deleteButton;
+        ConstraintLayout constraintLayout;
 
 
         public RowHolder(@NonNull @NotNull View itemView) {
@@ -84,7 +85,7 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
         }
 
 
-        public void bind(ArrayList<ActivityModel> activities, Integer position,ActivityRecyclerViewAdapter adapter){
+        public void bind(ArrayList<ActivityModel> activities, Integer position, ActivityRecyclerViewAdapter adapter) {
             activityNameField = itemView.findViewById(R.id.activityRecyclerNameField);
             activityTypeField = itemView.findViewById(R.id.activityRecyclerTypeField);
             activityDateField = itemView.findViewById(R.id.activityRecyclerDateField);
@@ -99,22 +100,22 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
                 builder.setPositiveButton(itemView.getContext().getText(R.string.yes), (dialogInterface, i) -> {
                     deleteButton.setVisibility(View.INVISIBLE);
                     ActivityModel goner = activities.get(position);
-                    Database.removeActivity(itemView.getContext(),MODE_PRIVATE, goner.getName());
-                    Tools.showSnackBar(String.format(itemView.getContext().getString(R.string.removed),activities.get(position).getName()),
-                            adapter.parentLayout,itemView.getContext(), Snackbar.LENGTH_SHORT);
+                    Database.removeActivity(itemView.getContext(), MODE_PRIVATE, goner.getName());
+                    Tools.showSnackBar(String.format(itemView.getContext().getString(R.string.removed), activities.get(position).getName()),
+                            adapter.parentLayout, itemView.getContext(), Snackbar.LENGTH_SHORT);
                     activities.remove(activities.get(position));
                     adapter.notifyDataSetChanged();
                 });
                 builder.show();
             });
-            activityCombineButton.setOnClickListener(v->{
+            activityCombineButton.setOnClickListener(v -> {
                 Intent intent = new Intent(itemView.getContext(), CombineActivity.class);
-                Combine combine = Database.getSingleCombine(itemView.getContext(),MODE_PRIVATE,activities.get(position).getCombineName());
-                if (combine!=null){
-                    intent.putExtra("combine",combine);
-                    intent.putExtra("initialize",true);
-                    intent.putExtra("index",position);
-                    ((Activity)itemView.getContext()).startActivityForResult(intent,2);
+                Combine combine = Database.getSingleCombine(itemView.getContext(), MODE_PRIVATE, activities.get(position).getCombineName());
+                if (combine != null) {
+                    intent.putExtra("combine", combine);
+                    intent.putExtra("initialize", true);
+                    intent.putExtra("index", position);
+                    ((Activity) itemView.getContext()).startActivityForResult(intent, 2);
                 }
             });
             constraintLayout = itemView.findViewById(R.id.activityRecyclerConstraintLayout);
@@ -127,28 +128,27 @@ public class ActivityRecyclerViewAdapter extends RecyclerView.Adapter<ActivityRe
             constraintLayout.setBackgroundColor(colors[position % colors.length]);
             constraintLayout.setOnClickListener(v -> {
                 Intent intent = new Intent(itemView.getContext(), AddActivityActivity.class);
-                intent.putExtra("initialize",true);
-                intent.putExtra("activity",activities.get(position));
-                intent.putExtra("index",position);
-                ((Activity)itemView.getContext()).startActivityForResult(intent,1);
+                intent.putExtra("initialize", true);
+                intent.putExtra("activity", activities.get(position));
+                intent.putExtra("index", position);
+                ((Activity) itemView.getContext()).startActivityForResult(intent, 1);
             });
         }
 
-        public boolean isDeleteVisible(){
+        public boolean isDeleteVisible() {
             return deleteButton.getVisibility() == View.VISIBLE;
         }
 
-        public void setDeleteVisibility(int visibility){
+        public void setDeleteVisibility(int visibility) {
             DisplayMetrics displayMetrics = new DisplayMetrics();
-            ((Activity)itemView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            ((Activity) itemView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int width = displayMetrics.widthPixels;
             deleteButton.setVisibility(visibility);
             deleteButton.setMinimumHeight(constraintLayout.getHeight());
-            if(visibility == View.VISIBLE){
-                Tools.setMarginLeft(constraintLayout,-width/8);
-            }
-            else{
-                Tools.setMarginLeft(constraintLayout,0);
+            if (visibility == View.VISIBLE) {
+                Tools.setMarginLeft(constraintLayout, -width / 8);
+            } else {
+                Tools.setMarginLeft(constraintLayout, 0);
             }
         }
     }

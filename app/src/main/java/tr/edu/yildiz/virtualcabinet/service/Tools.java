@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
@@ -20,12 +21,16 @@ import androidx.core.content.FileProvider;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import tr.edu.yildiz.virtualcabinet.BuildConfig;
 import tr.edu.yildiz.virtualcabinet.R;
@@ -50,22 +55,23 @@ public class Tools {
 
     private static Bitmap createSquaredBitmap(Bitmap srcBmp) {
         int dim = Math.max(srcBmp.getWidth(), srcBmp.getHeight());
-        Bitmap dstBmp = Bitmap.createBitmap(dim, dim,srcBmp.getConfig());
+        Bitmap dstBmp = Bitmap.createBitmap(dim, dim, srcBmp.getConfig());
 
         Canvas canvas = new Canvas(dstBmp);
         canvas.drawColor(Color.WHITE);
-        canvas.drawBitmap(srcBmp, (float)(dim - srcBmp.getWidth()) / 2, (float)(dim - srcBmp.getHeight()) / 2, null);
+        canvas.drawBitmap(srcBmp, (float) (dim - srcBmp.getWidth()) / 2, (float) (dim - srcBmp.getHeight()) / 2, null);
 
         return dstBmp;
     }
+
     public static Bitmap initializeImageView(Context context, Uri imageUri, ImageView imageView) {
         try {
             Bitmap bitmap;
             DisplayMetrics displayMetrics = new DisplayMetrics();
-            ((Activity)context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int height = displayMetrics.heightPixels;
             int width = displayMetrics.widthPixels;
-            int size = Math.max(height,width)/6;
+            int size = Math.max(height, width) / 6;
             if (Build.VERSION.SDK_INT >= 28) {
                 ImageDecoder.Source source = ImageDecoder.createSource(context.getContentResolver(), imageUri);
                 bitmap = Tools.makeImageSmaller(ImageDecoder.decodeBitmap(source), size);
@@ -73,7 +79,7 @@ public class Tools {
             } else {
                 bitmap = Tools.makeImageSmaller(MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri), size);
             }
-            if (bitmap!= null && imageView != null)
+            if (bitmap != null && imageView != null)
                 imageView.setImageBitmap(bitmap);
             return bitmap;
         } catch (IOException e) {
@@ -83,7 +89,7 @@ public class Tools {
     }
 
     public static Bitmap generateCombineBitmap(Context context, Uri imageUri) {
-        if(imageUri == null){
+        if (imageUri == null) {
             return null;
         }
         try {
@@ -114,11 +120,13 @@ public class Tools {
     }
 
     // stores file and returns its new path and original name
-    public static String storeAndGetPath(Context context, Uri uri) {
+    public static String storeAndGetPath(Context context, Uri uri, String fileName) {
         String realName = queryName(context, uri);
         String[] splitRealName = realName.split("\\.");
-        String hashName = java.util.UUID.randomUUID().toString() + "." + splitRealName[splitRealName.length - 1];
-        String path = context.getFilesDir().getPath() + File.separatorChar + hashName;
+        if (fileName == null) {
+            fileName = java.util.UUID.randomUUID().toString() + "." + splitRealName[splitRealName.length - 1];
+        }
+        String path = context.getFilesDir().getPath() + File.separatorChar + fileName;
         System.out.println(path);
         File destinationFilename = new File(path);
         try (InputStream ins = context.getContentResolver().openInputStream(uri)) {
@@ -132,7 +140,7 @@ public class Tools {
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, java.util.UUID.randomUUID().toString(), null);
         return Uri.parse(path);
     }
 
@@ -159,8 +167,8 @@ public class Tools {
         return color;
     }
 
-    public static Uri getUriFromStringPath(String path, Context context){
-        if(path == null || path.equals("")) return null;
+    public static Uri getUriFromStringPath(String path, Context context) {
+        if (path == null || path.equals("")) return null;
         File file = new File(path);
         return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
     }
@@ -175,7 +183,7 @@ public class Tools {
 
     public static void setMarginLeft(View v, int left) {
         ViewGroup.MarginLayoutParams params =
-                (ViewGroup.MarginLayoutParams)v.getLayoutParams();
+                (ViewGroup.MarginLayoutParams) v.getLayoutParams();
         params.setMargins(left, params.topMargin,
                 params.rightMargin, params.bottomMargin);
     }
@@ -183,9 +191,9 @@ public class Tools {
 
     public static void showSnackBar(String text, ViewGroup layout, Context context, int length, View.OnClickListener action, String actionButtonText) {
         Snackbar snackbar = Snackbar.make(layout, text, length)
-                .setActionTextColor(context.getColor(R.color.teal_700))
+                .setActionTextColor(context.getColor(R.color.black))
                 .setTextColor(context.getColor(R.color.white))
-                .setBackgroundTint(context.getColor(R.color.brown));
+                .setBackgroundTint(context.getColor(R.color.orange));
         if (action != null)
             snackbar.setAction(actionButtonText, action);
         snackbar.show();
@@ -195,8 +203,58 @@ public class Tools {
         showSnackBar(text, layout, context, length, null, null);
     }
 
-    public static void initializeImageView(Bitmap bitmap,ImageView imageView){
-        if(bitmap!=null) imageView.setImageBitmap(bitmap);
+    public static void initializeImageView(Bitmap bitmap, ImageView imageView) {
+        if (bitmap != null) imageView.setImageBitmap(bitmap);
     }
 
+    // converts arraylists of string to blob
+    public static <T> byte[] arrayListToBlob(ArrayList<T> arrayList) throws IOException {
+        if (arrayList == null) {
+            return null;
+        }
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(bos);
+
+        for (T element : arrayList) {
+            out.writeUTF(element.toString());
+        }
+        return bos.toByteArray();
+    }
+
+    // converts blob to arraylists of string
+    public static ArrayList<String> blobToArrayList(byte[] blob) throws IOException {
+        ArrayList<String> choicesList = new ArrayList<>();
+        if (blob == null || blob.length == 0) {
+            return choicesList;
+        }
+        ByteArrayInputStream bin = new ByteArrayInputStream(blob);
+        DataInputStream in = new DataInputStream(bin);
+        while (in.available() > 0) {
+            String element = in.readUTF();
+            choicesList.add(element);
+        }
+        return choicesList;
+    }
+
+    public static Bitmap generateMenuImage(Activity context, int id, int topBarSize) {
+        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), id);
+        float width = bmp.getWidth();
+        float height = bmp.getHeight();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
+        int screenHeight = (displayMetrics.heightPixels - topBarSize) / 3;
+        int cropWidth;
+        int cropHeight;
+        int x = 0;
+        int y = 0;
+        if (width / screenWidth > height / screenHeight) {
+            cropHeight = (int) height;
+            cropWidth = (int) height * screenWidth / screenHeight;
+        } else {
+            cropWidth = (int) width;
+            cropHeight = (int) width * screenHeight / screenWidth;
+        }
+        return Bitmap.createBitmap(bmp, x, y, cropWidth, cropHeight);
+    }
 }

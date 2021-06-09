@@ -28,6 +28,30 @@ import tr.edu.yildiz.virtualcabinet.service.Database;
 public class CombineListActivity extends AppCompatActivity {
     ArrayList<Combine> combines;
     CombineRecyclerViewAdapter recyclerViewAdapter;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_combine_list);
+        setTitle(R.string.combines);
+        Intent intent = getIntent();
+        boolean selectMode = intent.getBooleanExtra("select_mode", false);
+
+
+        combines = Database.getCombines(this, MODE_PRIVATE);
+        RecyclerView recyclerView = findViewById(R.id.combineRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+        if (combines == null)
+            combines = new ArrayList<>();
+        ConstraintLayout parentLayout = findViewById(R.id.combineListingConstraintLayout);
+        recyclerViewAdapter = new CombineRecyclerViewAdapter(combines, selectMode, parentLayout);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+        recyclerView.setAdapter(recyclerViewAdapter);
+    }
+
     ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.DOWN | ItemTouchHelper.UP) {
         @Override
         public boolean onMove(@NonNull @NotNull RecyclerView recyclerView, @NonNull @NotNull RecyclerView.ViewHolder viewHolder, @NonNull @NotNull RecyclerView.ViewHolder target) {
@@ -68,28 +92,6 @@ public class CombineListActivity extends AppCompatActivity {
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY / 8, actionState, isCurrentlyActive);
         }
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_combine_list);
-        setTitle(R.string.combines);
-        Intent intent = getIntent();
-        boolean selectMode = intent.getBooleanExtra("select_mode", false);
-
-
-        combines = Database.getCombines(this, MODE_PRIVATE);
-        RecyclerView recyclerView = findViewById(R.id.combineRecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        if (combines == null)
-            combines = new ArrayList<>();
-        ConstraintLayout parentLayout = findViewById(R.id.combineListingConstraintLayout);
-        recyclerViewAdapter = new CombineRecyclerViewAdapter(combines, selectMode, parentLayout);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-        recyclerView.setAdapter(recyclerViewAdapter);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {

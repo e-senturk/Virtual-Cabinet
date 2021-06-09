@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -15,7 +17,6 @@ import tr.edu.yildiz.virtualcabinet.models.Combine;
 import tr.edu.yildiz.virtualcabinet.models.Drawer;
 
 public class Database {
-
     public static void addDrawer(Context context, int mode, Drawer drawer) {
         try {
             SQLiteDatabase database = context.openOrCreateDatabase("database", mode, null);
@@ -28,7 +29,7 @@ public class Database {
             sqLiteStatement.close();
             database.close();
         } catch (Exception e) {
-            if(e.toString().contains("no such table"))
+            if (e.toString().contains("no such table"))
                 System.err.println("Drawer table has not created yet");
             else
                 e.printStackTrace();
@@ -54,7 +55,7 @@ public class Database {
             sqLiteStatement.close();
             database.close();
         } catch (Exception e) {
-            if(e.toString().contains("no such table"))
+            if (e.toString().contains("no such table"))
                 System.err.println("Activity table has not created yet");
             else
                 e.printStackTrace();
@@ -74,7 +75,7 @@ public class Database {
                 Double longitude = cursor.getDouble(cursor.getColumnIndex("longitude"));
                 String address = cursor.getString(cursor.getColumnIndex("address"));
                 String combineName = cursor.getString(cursor.getColumnIndex("combineName"));
-                activities.add(new ActivityModel(activityName,type,date,latitude,longitude,address,combineName));
+                activities.add(new ActivityModel(activityName, type, date, latitude, longitude, address, combineName));
 
             }
             cursor.close();
@@ -101,9 +102,6 @@ public class Database {
         }
     }
 
-
-
-
     public static ArrayList<Drawer> getDrawers(Context context, int mode) {
         ArrayList<Drawer> drawers = new ArrayList<>();
         try {
@@ -112,8 +110,8 @@ public class Database {
             while (cursor.moveToNext()) {
                 String drawer_name = cursor.getString(cursor.getColumnIndex("drawerName"));
                 String drawerColor = cursor.getString(cursor.getColumnIndex("drawerColor"));
-                ArrayList<Clothes> clothes = getClothes(context,mode,drawer_name);
-                drawers.add(new Drawer(drawer_name,drawerColor,clothes));
+                ArrayList<Clothes> clothes = getClothes(context, mode, drawer_name);
+                drawers.add(new Drawer(drawer_name, drawerColor, clothes));
             }
             cursor.close();
             database.close();
@@ -142,10 +140,11 @@ public class Database {
         }
     }
 
-    public static void updateDrawer(Context context, int mode, String drawerName, ArrayList<Clothes> clothes) {
-        if(clothes!= null){
-            for (Clothes clothesSingle:clothes){
-                addClothes(context,mode, clothesSingle,drawerName);
+    public static void updateDrawer(Context context, int mode, ArrayList<Clothes> clothes, String drawerName) {
+        if (clothes != null) {
+            for (Clothes clothesSingle : clothes) {
+                clothesSingle.setDrawerName(drawerName);
+                addClothes(context, mode, clothesSingle);
             }
         }
     }
@@ -209,7 +208,8 @@ public class Database {
         }
     }
 
-    public static void addClothes(Context context, int mode, Clothes clothes, String drawerName) {
+    public static void addClothes(Context context, int mode, Clothes clothes) {
+        System.out.println("Here");
         try {
             SQLiteDatabase database = context.openOrCreateDatabase("database", mode, null);
             database.execSQL("CREATE TABLE IF NOT EXISTS clothes (attachmentPath VARCHAR PRIMARY KEY, " +
@@ -225,42 +225,36 @@ public class Database {
             sqLiteStatement.bindString(5, clothes.getPurchaseDate());
             sqLiteStatement.bindString(6, clothes.getClothesPattern());
             sqLiteStatement.bindDouble(7, clothes.getPrice());
-            sqLiteStatement.bindString(8, drawerName);
+            sqLiteStatement.bindString(8, clothes.getDrawerName());
             sqLiteStatement.execute();
             sqLiteStatement.close();
             database.close();
-        }
-        catch (SQLiteConstraintException e){
+        } catch (SQLiteConstraintException e) {
             System.out.println("Skipped already exists");
-        }
-        catch (Exception e) {
-            if(e.toString().contains("no such table"))
+        } catch (Exception e) {
+            if (e.toString().contains("no such table"))
                 System.err.println("Clothes table has not created yet");
             else
                 e.printStackTrace();
         }
     }
 
-    public static void updateClothes(Context context, int mode, Clothes newClothes, String drawerName, String oldPath) {
+    public static void updateClothes(Context context, int mode, Clothes newClothes, String oldPath) {
         try {
-            removeClothes(context,mode,oldPath);
-            addClothes(context,mode,newClothes,drawerName);
+            removeClothes(context, mode, oldPath);
+            addClothes(context, mode, newClothes);
             ArrayList<String> wearingLocations = new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.wearing_place)));
             SQLiteDatabase database = context.openOrCreateDatabase("database", mode, null);
             String update = "";
-            if(newClothes.getWearingLocation().equals(wearingLocations.get(0))){
+            if (newClothes.getWearingLocation().equals(wearingLocations.get(0))) {
                 update = "UPDATE combines SET topHeadPath=? WHERE topHeadPath = ?;";
-            }
-            else if(newClothes.getWearingLocation().equals(wearingLocations.get(1))){
+            } else if (newClothes.getWearingLocation().equals(wearingLocations.get(1))) {
                 update = "UPDATE combines SET facePath=? WHERE facePath = ?;";
-            }
-            else if(newClothes.getWearingLocation().equals(wearingLocations.get(2))){
+            } else if (newClothes.getWearingLocation().equals(wearingLocations.get(2))) {
                 update = "UPDATE combines SET upperBodyPath=? WHERE upperBodyPath = ?;";
-            }
-            else if(newClothes.getWearingLocation().equals(wearingLocations.get(3))){
+            } else if (newClothes.getWearingLocation().equals(wearingLocations.get(3))) {
                 update = "UPDATE combines SET lowerBodyPath=? WHERE lowerBodyPath = ?;";
-            }
-            else if(newClothes.getWearingLocation().equals(wearingLocations.get(4))){
+            } else if (newClothes.getWearingLocation().equals(wearingLocations.get(4))) {
                 update = "UPDATE combines SET feetPath=? WHERE feetPath = ?;";
             }
             SQLiteStatement sqLiteStatement = database.compileStatement(update);
@@ -274,13 +268,12 @@ public class Database {
         }
     }
 
-
-    public static ArrayList<Clothes> getClothes(Context context, int mode, String drawerName, String wearingLocation){
+    public static ArrayList<Clothes> getClothes(Context context, int mode, String drawerName, String wearingLocation) {
         ArrayList<Clothes> clothes = new ArrayList<>();
         try {
             SQLiteDatabase database = context.openOrCreateDatabase("database", mode, null);
             Cursor cursor;
-            cursor = database.rawQuery("SELECT * FROM clothes WHERE drawerName =? AND wearingLocation=? ORDER BY type", new String[]{drawerName,wearingLocation});
+            cursor = database.rawQuery("SELECT * FROM clothes WHERE drawerName =? AND wearingLocation=? ORDER BY type", new String[]{drawerName, wearingLocation});
             while (cursor.moveToNext()) {
                 String attachmentPath = cursor.getString(cursor.getColumnIndex("attachmentPath"));
                 wearingLocation = cursor.getString(cursor.getColumnIndex("wearingLocation"));
@@ -289,7 +282,7 @@ public class Database {
                 String purchaseDate = cursor.getString(cursor.getColumnIndex("purchaseDate"));
                 String clothesPattern = cursor.getString(cursor.getColumnIndex("clothesPattern"));
                 Double price = cursor.getDouble(cursor.getColumnIndex("price"));
-                clothes.add(new Clothes(attachmentPath,wearingLocation,type,color,purchaseDate,clothesPattern,price));
+                clothes.add(new Clothes(attachmentPath, wearingLocation, type, color, purchaseDate, clothesPattern, price, drawerName));
             }
             cursor.close();
             database.close();
@@ -300,12 +293,57 @@ public class Database {
         }
     }
 
-    public static ArrayList<Clothes> getClothes(Context context, int mode, String drawerName){
+    public static ArrayList<String> getClothesPathList(Context context, int mode) {
+        ArrayList<String> clothesPaths = new ArrayList<>();
+        try {
+            SQLiteDatabase database = context.openOrCreateDatabase("database", mode, null);
+            Cursor cursor;
+            cursor = database.rawQuery("SELECT attachmentPath FROM clothes", new String[]{});
+            while (cursor.moveToNext()) {
+                String attachmentPath = cursor.getString(cursor.getColumnIndex("attachmentPath"));
+                clothesPaths.add(attachmentPath);
+            }
+            cursor.close();
+            database.close();
+            return clothesPaths;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<Clothes> getAllClothes(Context context, int mode) {
+        ArrayList<Clothes> clothes = new ArrayList<>();
+        try {
+            SQLiteDatabase database = context.openOrCreateDatabase("database", mode, null);
+            Cursor cursor;
+            cursor = database.rawQuery("SELECT * FROM clothes", new String[]{});
+            while (cursor.moveToNext()) {
+                String attachmentPath = cursor.getString(cursor.getColumnIndex("attachmentPath"));
+                String wearingLocation = cursor.getString(cursor.getColumnIndex("wearingLocation"));
+                String type = cursor.getString(cursor.getColumnIndex("type"));
+                String color = cursor.getString(cursor.getColumnIndex("color"));
+                String purchaseDate = cursor.getString(cursor.getColumnIndex("purchaseDate"));
+                String clothesPattern = cursor.getString(cursor.getColumnIndex("clothesPattern"));
+                Double price = cursor.getDouble(cursor.getColumnIndex("price"));
+                String drawerName = cursor.getString(cursor.getColumnIndex("drawerName"));
+                clothes.add(new Clothes(attachmentPath, wearingLocation, type, color, purchaseDate, clothesPattern, price, drawerName));
+            }
+            cursor.close();
+            database.close();
+            return clothes;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static ArrayList<Clothes> getClothes(Context context, int mode, String drawerName) {
         ArrayList<Clothes> clothes = new ArrayList<>();
         String[] wearingPlaces = context.getResources().getStringArray(R.array.wearing_place);
-        for(String place:wearingPlaces){
-            ArrayList<Clothes> part = getClothes(context,mode,drawerName,place);
-            if(part!=null){
+        for (String place : wearingPlaces) {
+            ArrayList<Clothes> part = getClothes(context, mode, drawerName, place);
+            if (part != null) {
                 clothes.addAll(part);
             }
         }
@@ -347,9 +385,8 @@ public class Database {
         } catch (SQLiteConstraintException e) {
             e.printStackTrace();
             return false;
-        }
-        catch (Exception e){
-            if(e.toString().contains("no such table"))
+        } catch (Exception e) {
+            if (e.toString().contains("no such table"))
                 System.err.println("Combine table has not created yet");
             else
                 e.printStackTrace();
@@ -357,22 +394,22 @@ public class Database {
         }
     }
 
-    private static int validation(SQLiteDatabase database,ArrayList<String> paths){
+    private static int validation(SQLiteDatabase database, ArrayList<String> paths) {
         int i = 0;
-        for(String path:paths){
+        for (String path : paths) {
             Cursor cursor = database.rawQuery("SELECT attachmentPath FROM clothes WHERE attachmentPath =?", new String[]{path});
             String temp = null;
             while (cursor.moveToNext()) {
                 temp = cursor.getString(cursor.getColumnIndex("attachmentPath"));
             }
-            if(temp != null)
-                i+=1;
+            if (temp != null)
+                i += 1;
             cursor.close();
         }
         return i;
     }
 
-    public static ArrayList<Combine> getCombines(Context context, int mode){
+    public static ArrayList<Combine> getCombines(Context context, int mode) {
         ArrayList<Combine> combines = new ArrayList<>();
         ArrayList<Combine> goners = new ArrayList<>();
         try {
@@ -385,16 +422,15 @@ public class Database {
                 String upperBodyPath = cursor.getString(cursor.getColumnIndex("upperBodyPath"));
                 String lowerBodyPath = cursor.getString(cursor.getColumnIndex("lowerBodyPath"));
                 String feetPath = cursor.getString(cursor.getColumnIndex("feetPath"));
-                Combine combine = new Combine(combineName,topHeadPath,facePath,upperBodyPath,lowerBodyPath,feetPath);
-                if(validation(database,combine.generateArrayList())<2){
+                Combine combine = new Combine(combineName, topHeadPath, facePath, upperBodyPath, lowerBodyPath, feetPath);
+                if (validation(database, combine.generateArrayList()) < 2) {
                     goners.add(combine);
-                }
-                else combines.add(combine);
+                } else combines.add(combine);
             }
             cursor.close();
             database.close();
-            for (Combine goner:goners){
-                removeCombine(context,mode,goner.getName());
+            for (Combine goner : goners) {
+                removeCombine(context, mode, goner.getName());
             }
             return combines;
         } catch (Exception e) {
@@ -403,7 +439,9 @@ public class Database {
         }
     }
 
-    public static Combine getSingleCombine(Context context, int mode,String combineNamePrev){
+    // updates given question on sql
+
+    public static Combine getSingleCombine(Context context, int mode, String combineNamePrev) {
         ArrayList<Combine> combines = new ArrayList<>();
         try {
             SQLiteDatabase database = context.openOrCreateDatabase("database", mode, null);
@@ -415,7 +453,7 @@ public class Database {
                 String upperBodyPath = cursor.getString(cursor.getColumnIndex("upperBodyPath"));
                 String lowerBodyPath = cursor.getString(cursor.getColumnIndex("lowerBodyPath"));
                 String feetPath = cursor.getString(cursor.getColumnIndex("feetPath"));
-                combines.add(new Combine(combineName,topHeadPath,facePath,upperBodyPath,lowerBodyPath,feetPath));
+                combines.add(new Combine(combineName, topHeadPath, facePath, upperBodyPath, lowerBodyPath, feetPath));
             }
             cursor.close();
             database.close();
@@ -446,10 +484,6 @@ public class Database {
         }
     }
 
-    // updates given question on sql
-
-
-
     public static void removeCombine(Context context, int mode, String combineName) {
         try {
             SQLiteDatabase database = context.openOrCreateDatabase("database", mode, null);
@@ -463,5 +497,51 @@ public class Database {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void clearAll(Context context, int mode) {
+        ArrayList<String> pathList = Database.getClothesPathList(context, mode);
+        try {
+            if (pathList != null) {
+                for (String path : pathList) {
+                    Uri uri = Tools.getUriFromStringPath(path, context);
+                    context.getContentResolver().delete(uri, null, null);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Can't delete images from local storage");
+        }
+        SQLiteDatabase database = context.openOrCreateDatabase("database", mode, null);
+        SQLiteStatement sqLiteStatement;
+        try {
+            sqLiteStatement = database.compileStatement("DROP TABLE drawers");
+            sqLiteStatement.execute();
+            sqLiteStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sqLiteStatement = database.compileStatement("DROP TABLE clothes");
+            sqLiteStatement.execute();
+            sqLiteStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sqLiteStatement = database.compileStatement("DROP TABLE combines");
+            sqLiteStatement.execute();
+            sqLiteStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sqLiteStatement = database.compileStatement("DROP TABLE activities");
+            sqLiteStatement.execute();
+            sqLiteStatement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        database.close();
     }
 }

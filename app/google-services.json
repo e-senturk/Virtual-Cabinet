@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1092331498626",
-    "project_id": "virtual-cabinet-ef054",
-    "storage_bucket": "virtual-cabinet-ef054.appspot.com"
+    "project_number": "540805968242",
+    "project_id": "virtualcabinet-1fd25",
+    "storage_bucket": "virtualcabinet-1fd25.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1092331498626:android:dbf3ad3ff451d4cb7a189b",
+        "mobilesdk_app_id": "1:540805968242:android:66a3d2d2b372949f25edeb",
         "android_client_info": {
           "package_name": "tr.edu.yildiz.virtualcabinet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1092331498626-3tcvt9gle6iljnhhv7e0jrela5oo27du.apps.googleusercontent.com",
+          "client_id": "540805968242-v1hegd6ncf8vigar0onnk5qaho8rcf0g.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCbq8h6DMg5LgjNs_c-xte_IQOqpOdbgvE"
+          "current_key": "AIzaSyCoZjRjX5euMf3NbVppm8G60ZzRo5ZixoE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1092331498626-3tcvt9gle6iljnhhv7e0jrela5oo27du.apps.googleusercontent.com",
+              "client_id": "540805968242-v1hegd6ncf8vigar0onnk5qaho8rcf0g.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

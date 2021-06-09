@@ -3,12 +3,12 @@
 
     To get one, follow this link, follow the directions and press "Create" at the end:
 
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=3A:2B:27:7B:CB:1C:BB:59:0B:60:DE:28:66:7B:4A:64:D7:69:7A:DD%3Btr.edu.yildiz.virtualcloset
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=3A:2B:27:7B:CB:1C:BB:59:0B:60:DE:28:66:7B:4A:64:D7:69:7A:DD%3Btr.edu.yildiz.virtualcabinet
 
     You can also add your credentials to an existing key, using these values:
 
     Package name:
-    tr.edu.yildiz.virtualcloset
+    tr.edu.yildiz.virtualcabinet
 
     SHA-1 certificate fingerprint:
     3A:2B:27:7B:CB:1C:BB:59:0B:60:DE:28:66:7B:4A:64:D7:69:7A:DD
@@ -19,5 +19,5 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyD5MG4qNZeFMccOJaUlNJ-JB1dSwwnJ-do</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAWguoRkWmfgPuDP_iJRGww-6rQKrQFBIc</string>
 </resources>

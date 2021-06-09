@@ -95,7 +95,7 @@ public class AddClothesActivity extends AppCompatActivity {
     public void saveClothes(View view) {
         String path;
         if (clothesUri != null)
-            path = Tools.storeAndGetPath(this, clothesUri);
+            path = Tools.storeAndGetPath(this, clothesUri, null);
         else {
             Tools.showSnackBar(getString(R.string.you_must_select_at_least_2_items), parentLayout, this, Snackbar.LENGTH_SHORT);
             return;
@@ -113,12 +113,12 @@ public class AddClothesActivity extends AppCompatActivity {
             System.err.println("Price isn't valid set to 0");
             price = 0.00;
         }
-        Clothes newClothes = new Clothes(path, wearingLocation, type, color, purchaseDate, pattern, price);
+        Clothes newClothes = new Clothes(path, wearingLocation, type, color, purchaseDate, pattern, price, drawerName);
         Intent data = new Intent();
         data.putExtra("new_clothes", newClothes);
         if (initialize) {
             data.putExtra("index", oldIndex);
-            Database.updateClothes(this,MODE_PRIVATE,newClothes,drawerName,oldClothes.getAttachmentPath());
+            Database.updateClothes(this, MODE_PRIVATE, newClothes, oldClothes.getAttachmentPath());
         }
         setResult(RESULT_OK, data);
         finish();
@@ -150,7 +150,7 @@ public class AddClothesActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
             clothesBitmap = Tools.initializeImageView(this, data.getData(), clothesImage);
-            if(clothesBitmap!=null){
+            if (clothesBitmap != null) {
                 clothesUri = Tools.getImageUri(this, clothesBitmap);
                 Color dominant = Tools.getDominantColor(clothesBitmap);
                 clothesColorText.setBackgroundColor(dominant.toArgb());

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,7 +47,7 @@ public class AddActivityActivity extends AppCompatActivity {
         combine = null;
         Intent intent = getIntent();
         initialize = intent.getBooleanExtra("initialize", false);
-        oldActivityPosition = intent.getIntExtra("index",-1);
+        oldActivityPosition = intent.getIntExtra("index", -1);
         if (initialize) {
             oldActivity = intent.getParcelableExtra("activity");
             activityNameText.setText(oldActivity.getName());
@@ -61,7 +60,7 @@ public class AddActivityActivity extends AppCompatActivity {
             try {
                 addresses = geocoder.getFromLocation(oldActivity.getLatitude(), oldActivity.getLongitude(), 1);
                 address = addresses.get(0);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 address = null;
             }
@@ -114,10 +113,10 @@ public class AddActivityActivity extends AppCompatActivity {
         ActivityModel activityModel = new ActivityModel(activityNameText.getText().toString(),
                 activityTypeText.getText().toString(), activityDateText.getText().toString(),
                 latitude, longitude, activityLocationText.getText().toString(), combineNameText.getText().toString());
-        if (initialize){
+        if (initialize) {
             Database.removeActivity(this, MODE_PRIVATE, oldActivity.getName());
-            data.putExtra("index",oldActivityPosition);
-            data.putExtra("editing",true);
+            data.putExtra("index", oldActivityPosition);
+            data.putExtra("editing", true);
         }
         Database.addActivity(this, MODE_PRIVATE, activityModel);
         data.putExtra("activity", activityModel);

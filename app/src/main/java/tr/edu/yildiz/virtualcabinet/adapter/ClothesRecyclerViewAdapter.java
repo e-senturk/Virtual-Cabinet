@@ -89,7 +89,7 @@ public class ClothesRecyclerViewAdapter extends RecyclerView.Adapter<ClothesRecy
             super(itemView);
         }
 
-        public void bind(ArrayList<Clothes> clothes, String drawerName,Integer position, ClothesRecyclerViewAdapter adapter, boolean clickable, boolean removable, Intent data2) {
+        public void bind(ArrayList<Clothes> clothes, String drawerName, Integer position, ClothesRecyclerViewAdapter adapter, boolean clickable, boolean removable, Intent data2) {
             parentLayout = itemView.findViewById(R.id.clothesListRecyclerView);
             layout = itemView.findViewById(R.id.clothesRecyclerConstraintLayout);
             clothesImage = itemView.findViewById(R.id.clothesListImageView);
@@ -118,7 +118,7 @@ public class ClothesRecyclerViewAdapter extends RecyclerView.Adapter<ClothesRecy
                     intent.putExtra("index", position);
                     intent.putExtra("initialize", true);
                     intent.putExtra("clothes", clothes.get(position));
-                    intent.putExtra("drawer_name",drawerName);
+                    intent.putExtra("drawer_name", drawerName);
                     ((Activity) itemView.getContext()).startActivityForResult(intent, 2);
                 });
             }
@@ -136,7 +136,7 @@ public class ClothesRecyclerViewAdapter extends RecyclerView.Adapter<ClothesRecy
                                 adapter.parentLayout, itemView.getContext(), Snackbar.LENGTH_SHORT);
                         clothes.remove(clothes.get(position));
                         data2.putExtra("clothes_list", clothes);
-                        Uri uri = Tools.getUriFromStringPath(goner.getAttachmentPath(),itemView.getContext());
+                        Uri uri = Tools.getUriFromStringPath(goner.getAttachmentPath(), itemView.getContext());
                         itemView.getContext().getContentResolver().delete(uri, null, null);
                         ((Activity) itemView.getContext()).setResult(RESULT_OK, data2);
                         adapter.notifyDataSetChanged();

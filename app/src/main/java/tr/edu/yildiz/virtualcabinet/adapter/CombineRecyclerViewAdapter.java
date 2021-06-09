@@ -3,6 +3,7 @@ package tr.edu.yildiz.virtualcabinet.adapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<CombineRecy
     boolean selectMode;
     ConstraintLayout parentLayout;
 
-    public CombineRecyclerViewAdapter(@NotNull ArrayList<Combine> combines, boolean selectMode,ConstraintLayout parentLayout) {
+    public CombineRecyclerViewAdapter(@NotNull ArrayList<Combine> combines, boolean selectMode, ConstraintLayout parentLayout) {
         this.combines = combines;
         this.selectMode = selectMode;
         this.parentLayout = parentLayout;
@@ -51,7 +52,7 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<CombineRecy
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull CombineRecyclerViewAdapter.RowHolder holder, int position) {
-        holder.bind(combines, position,selectMode,this,parentLayout);
+        holder.bind(combines, position, selectMode, this, parentLayout);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<CombineRecy
             super(itemView);
         }
 
-        public void bind(ArrayList<Combine> combines, Integer position, Boolean selectMode, CombineRecyclerViewAdapter adapter,ConstraintLayout parentLayout){
+        public void bind(ArrayList<Combine> combines, Integer position, Boolean selectMode, CombineRecyclerViewAdapter adapter, ConstraintLayout parentLayout) {
             combineNameText = itemView.findViewById(R.id.combineRecyclerTextView);
             combineTopHeadImage = itemView.findViewById(R.id.combineRecyclerTopHeadImage);
             combineFaceImage = itemView.findViewById(R.id.combineRecyclerFaceImage);
@@ -82,28 +83,31 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<CombineRecy
             combineFeetImage = itemView.findViewById(R.id.combineRecyclerFeetImage);
             constraintLayout = itemView.findViewById(R.id.combineRecyclerConstraintLayout);
             deleteButton = itemView.findViewById(R.id.combineRecyclerDeleteButton);
-
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            ((Activity) itemView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int height = displayMetrics.heightPixels;
+            int width = displayMetrics.widthPixels;
+            int size = (int) (Math.max(height, width) / 6.5);
             combineNameText.setText(combines.get(position).getName());
-            combineTopHeadImage.setImageBitmap(combines.get(position).getTopHeadImage(itemView.getContext()));
-            combineFaceImage.setImageBitmap(combines.get(position).getFaceImage(itemView.getContext()));
-            combineUpperBodyImage.setImageBitmap(combines.get(position).getUpperBodyImage(itemView.getContext()));
-            combineLowerBodyImage.setImageBitmap(combines.get(position).getLowerBodyImage(itemView.getContext()));
-            combineFeetImage.setImageBitmap(combines.get(position).getFeetImage(itemView.getContext()));
+            combineTopHeadImage.setImageBitmap(Tools.makeImageSmaller(combines.get(position).getTopHeadImage(itemView.getContext()), size));
+            combineFaceImage.setImageBitmap(Tools.makeImageSmaller(combines.get(position).getFaceImage(itemView.getContext()), size));
+            combineUpperBodyImage.setImageBitmap(Tools.makeImageSmaller(combines.get(position).getUpperBodyImage(itemView.getContext()), size));
+            combineLowerBodyImage.setImageBitmap(Tools.makeImageSmaller(combines.get(position).getLowerBodyImage(itemView.getContext()), size));
+            combineFeetImage.setImageBitmap(Tools.makeImageSmaller(combines.get(position).getFeetImage(itemView.getContext()), size));
             deleteButton.setMinimumWidth(combineFeetImage.getWidth());
 
             constraintLayout.setOnClickListener(v -> {
-                if(selectMode){
+                if (selectMode) {
                     Intent data = new Intent();
-                    data.putExtra("combine",combines.get(position));
-                    ((Activity)itemView.getContext()).setResult(RESULT_OK,data);
-                    ((Activity)itemView.getContext()).finish();
-                }
-                else{
+                    data.putExtra("combine", combines.get(position));
+                    ((Activity) itemView.getContext()).setResult(RESULT_OK, data);
+                    ((Activity) itemView.getContext()).finish();
+                } else {
                     Intent intent = new Intent(itemView.getContext(), AddCombineActivity.class);
-                    intent.putExtra("combine",combines.get(position));
-                    intent.putExtra("index",position);
-                    intent.putExtra("initialize",true);
-                    ((Activity)itemView.getContext()).startActivityForResult(intent,1);
+                    intent.putExtra("combine", combines.get(position));
+                    intent.putExtra("index", position);
+                    intent.putExtra("initialize", true);
+                    ((Activity) itemView.getContext()).startActivityForResult(intent, 1);
                 }
 
             });
@@ -115,9 +119,9 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<CombineRecy
                 builder.setPositiveButton(itemView.getContext().getString(R.string.yes), (dialogInterface, i) -> {
                     deleteButton.setVisibility(View.INVISIBLE);
                     Combine goner = combines.get(position);
-                    Database.removeCombine(itemView.getContext(),MODE_PRIVATE, goner.getName());
-                    Tools.showSnackBar(String.format(itemView.getContext().getString(R.string.removed),combines.get(position).getName()),
-                            parentLayout,itemView.getContext(), Snackbar.LENGTH_SHORT);
+                    Database.removeCombine(itemView.getContext(), MODE_PRIVATE, goner.getName());
+                    Tools.showSnackBar(String.format(itemView.getContext().getString(R.string.removed), combines.get(position).getName()),
+                            parentLayout, itemView.getContext(), Snackbar.LENGTH_SHORT);
                     combines.remove(combines.get(position));
                     adapter.notifyDataSetChanged();
                 });
@@ -125,13 +129,16 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<CombineRecy
 
             });
         }
-        public void showDelete(){
+
+        public void showDelete() {
             deleteButton.setVisibility(View.VISIBLE);
         }
-        public void hideDelete(){
+
+        public void hideDelete() {
             deleteButton.setVisibility(View.GONE);
         }
-        public boolean isDeleteVisible(){
+
+        public boolean isDeleteVisible() {
             return deleteButton.getVisibility() == View.VISIBLE;
         }
     }

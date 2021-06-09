@@ -104,9 +104,9 @@ public class DrawerRecyclerViewAdapter extends RecyclerView.Adapter<DrawerRecycl
                 builder.setPositiveButton(itemView.getContext().getString(R.string.yes), (dialogInterface, i) -> {
                     drawerDeleteImageButton.setVisibility(View.INVISIBLE);
                     Drawer goner = drawers.get(position);
-                    Database.removeDrawer(itemView.getContext(),MODE_PRIVATE,goner.getName());
-                    Tools.showSnackBar(String.format(itemView.getContext().getString(R.string.removed),drawers.get(position).getName()),
-                            adapter.parentLayout,itemView.getContext(), Snackbar.LENGTH_SHORT);
+                    Database.removeDrawer(itemView.getContext(), MODE_PRIVATE, goner.getName());
+                    Tools.showSnackBar(String.format(itemView.getContext().getString(R.string.removed), drawers.get(position).getName()),
+                            adapter.parentLayout, itemView.getContext(), Snackbar.LENGTH_SHORT);
                     drawers.remove(drawers.get(position));
                     adapter.notifyDataSetChanged();
                 });

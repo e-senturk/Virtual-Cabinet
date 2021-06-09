@@ -43,27 +43,26 @@ public class CombineActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         combine = intent.getParcelableExtra("combine");
-        initialize = intent.getBooleanExtra("initialize",false);
-        if(initialize){
+        initialize = intent.getBooleanExtra("initialize", false);
+        if (initialize) {
             initializeName = combine.getName();
             combineNameText.setText(initializeName);
         }
-        index = intent.getIntExtra("index",-1);
-        if (combine != null){
+        index = intent.getIntExtra("index", -1);
+        if (combine != null) {
             combineImage.setImageBitmap(combine.createMergedImage(this));
             ArrayList<String> paths = combine.generateArrayList();
             int i = 0;
-            for(String path:paths){
-                Uri uri = Tools.getUriFromStringPath(path,this);
-                Bitmap bitmap = Tools.generateCombineBitmap(this,uri);
-                if(bitmap == null){
+            for (String path : paths) {
+                Uri uri = Tools.getUriFromStringPath(path, this);
+                Bitmap bitmap = Tools.generateCombineBitmap(this, uri);
+                if (bitmap == null) {
                     i++;
-                }
-                else{
+                } else {
                     bitmap.recycle();
                 }
-                if(i==4){
-                    Database.removeCombine(this,MODE_PRIVATE,combine.getName());
+                if (i == 4) {
+                    Database.removeCombine(this, MODE_PRIVATE, combine.getName());
                     finish();
                 }
             }
@@ -76,28 +75,27 @@ public class CombineActivity extends AppCompatActivity {
     public void saveCombine(View view) {
         combine.setName(combineNameText.getText().toString());
         boolean result;
-        if(!initialize)
+        if (!initialize)
             result = Database.addCombine(this, MODE_PRIVATE, combine);
-        else{
-            if(initializeName.equals(combine.getName())){
-                Database.updateCombine(this,MODE_PRIVATE,combine);
+        else {
+            if (initializeName.equals(combine.getName())) {
+                Database.updateCombine(this, MODE_PRIVATE, combine);
                 result = true;
-            }
-            else{
-                Database.removeCombine(this,MODE_PRIVATE,initializeName);
-                result= Database.addCombine(this,MODE_PRIVATE,combine);
+            } else {
+                Database.removeCombine(this, MODE_PRIVATE, initializeName);
+                result = Database.addCombine(this, MODE_PRIVATE, combine);
             }
         }
-        if(!result){
-            Tools.showSnackBar(getString(R.string.this_combine_name_already_exists),parentLayout,this, Snackbar.LENGTH_SHORT);
+        if (!result) {
+            Tools.showSnackBar(getString(R.string.this_combine_name_already_exists), parentLayout, this, Snackbar.LENGTH_SHORT);
             return;
         }
         Intent data = new Intent();
-        data.putExtra("combine",combine);
-        if(index!=-1){
-            data.putExtra("index",index);
+        data.putExtra("combine", combine);
+        if (index != -1) {
+            data.putExtra("index", index);
         }
-        setResult(RESULT_OK,data);
+        setResult(RESULT_OK, data);
         finish();
     }
 

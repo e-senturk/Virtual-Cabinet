@@ -47,7 +47,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="alert">Warning!</string>
     <string name="are_you_sure_drawer_delete">This drawer and all the clothes in it will be deleted. Are you sure?</string>
-    <string name="are_you_sure_clothes_delete">This clothes will be removed. Are you sure?</string>
+    <string name="are_you_sure_clothes_delete">This clothes will be removed from everywhere. Are you sure?</string>
     <string name="are_you_sure_combine_delete">This combine will be removed. Are you sure?</string>
     <string name="are_you_sure_activity_delete">This activity will be removed. Are you sure?</string>
     <string name="yes">Yes</string>
@@ -77,4 +77,17 @@
     <string name="add_new_combine">Add New Combine</string>
     <string name="combines">Combines</string>
     <string name="select_a_location">Select a Location</string>
+    <string name="connection_successful">Connection Successful</string>
+    <string name="connection_failed">Connection Failed</string>
+    <string name="charger_connected">Charger Connected</string>
+    <string name="charger_disconnected">Charger Disconnected</string>
+    <string name="start_backup">Start Backup</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
+    <string name="are_you_sure_restore">The items that are not in the database will be lost. Are you sure?</string>
+    <string name="are_you_sure_backup">The items in the database will be reset. Are you sure?</string>
+    <string name="are_you_sure_clear">All data on the device will be deleted. Are you sure?</string>
+    <string name="backup_started">Backup Started</string>
+    <string name="restore_started">Restore Started</string>
+    <string name="cleaning_started">Cleaning Started</string>
 </resources>
