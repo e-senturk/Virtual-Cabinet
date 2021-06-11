@@ -42,7 +42,7 @@
     <string name="date">%1$d/%2$d/%3$d</string>
     <string name="confirm">Onayla</string>
     <string name="cancel">İptal Et</string>
-    <string name="combine">Kombine Oluştur</string>
+    <string name="combine">Kombin Oluştur</string>
     <string name="title_activity_maps">Harita</string>
     <string name="alert">Uyarı!</string>
     <string name="are_you_sure_drawer_delete">Bu çekmece ve içindeki tüm elbiseler silinecek. Emin misiniz?</string>

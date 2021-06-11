@@ -109,6 +109,7 @@ public class CombineActivity extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), image, "Title", null);
+        System.out.println(path);
         Uri imageUri = Uri.parse(path);
         share.putExtra(Intent.EXTRA_STREAM, imageUri);
         share.putExtra(Intent.EXTRA_TEXT, "Here is text");
